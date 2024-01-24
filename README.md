@@ -1,6 +1,6 @@
-# EuroCore Coopetion Service
+# EuroCore Coopetition Service
 
-Used to track teams, robots, and modules for running a coopetion.
+Used to track teams, robots, and modules for running a coopetition.
 
 ## How to Run
 

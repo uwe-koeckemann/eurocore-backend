@@ -6,13 +6,13 @@ from .aiod_entry import AiOnDemandOrganization
 class RobotBase(SQLModel):
     name: str = Field(max_length=100)
     url: str = Field(max_length=200)
-    manufactured_by: Optional[int] = Field(default=None, foreign_key="aiod_organization.org_id")  # link to AIoD organization
-    tutorial: Optional[str] = None  # link to AIoD educational material dedicated to robot
+    manufactured_by: Optional[int] = Field(default=None, foreign_key="aiod_organization.id") 
+    tutorial: Optional[str] = None 
     release_year: Optional[int] = None
 
 
 class Robot(RobotBase, table=True):
-    robot_id: Optional[int] = Field(default=None, primary_key=True)
+    id: Optional[int] = Field(default=None, primary_key=True)
 
 
 class RobotUpdate(SQLModel):

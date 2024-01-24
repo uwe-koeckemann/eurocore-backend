@@ -3,8 +3,9 @@ from sqlmodel import Field, SQLModel, Session, create_engine, Relationship
 
 from .aiod_entry import AiOnDemandOrganization
 from .robot import Robot
-#from .module import ModuleUsage
-from .links import TeamRobotLink
+# from .module import ModuleUsage
+# from .links import TeamRobotLink
+
 
 
 class TeamBase(SQLModel):
@@ -21,5 +22,6 @@ class TeamUpdate(SQLModel):
     name: Optional[str] = None
     description: Optional[str] = None
     tokens: Optional[int] = None
-    usages: Optional[List["ModuleUsage"]] = None
     # robots: Optional[List["Robot"]] = None
+
+    

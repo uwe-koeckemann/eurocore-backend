@@ -1,5 +1,6 @@
-# EuroCore Coopetition Service
+# EuroCore Backend
 
+API for the EuroCore including end-points to manage coopetitions.
 Used to track teams, robots, and modules for running a coopetition.
 
 ## How to Run
@@ -19,15 +20,20 @@ Used to track teams, robots, and modules for running a coopetition.
 
 - Try API in web-browser by opening URL indicated by `uvicorn` (http://localhost:8000/docs)
 
+# Ideas / TODO
+
+- Safe-delete for tag, relation_type, and entry
+- Delete-everywhere for tag, relation_type, and entry
+
 # Data Classes
 
-All data classes are split into three classes. For instance for `Robot` we have:
+Most data classes are split into three classes. For instance for `Entry` we have:
 
-- `RobotBase`: basic data used for creation (does not include the database key
+- `EntryBase`: basic data used for creation (does not include the database key
   which will be created for us)
-- `Robot`: inherits from `RobotBase` only adding robot_id as a primary key. This
+- `Entry`: inherits from `RobotBase` only adding robot_id as a primary key. This
   class will be the actual table
-- `RobotUpdate`: all fields are optional so we can update any part of an entry
+- `EntryUpdate`: all fields are optional so we can update any part of an entry
   without having to specify the old values
 
 # Resources

@@ -1,5 +1,5 @@
 from typing import Optional
-from sqlmodel import Field, SQLModel, Session, create_engine, Relationship
+from sqlmodel import Field, SQLModel, Relationship
 
 from .team import Team
 

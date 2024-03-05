@@ -1,0 +1,6 @@
+# Indicate something that can be done with an entry
+Docker
+Git
+ROS Launchable
+File
+Configurable

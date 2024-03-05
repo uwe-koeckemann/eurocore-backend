@@ -1,5 +1,7 @@
-from typing import Optional
-from sqlmodel import Field, SQLModel
+from typing import Optional, List
+from sqlmodel import Field, SQLModel, Relationship
+
+from .entry_tag_link import EntryTagLink
 
 
 class EntryBase(SQLModel):
@@ -11,6 +13,8 @@ class EntryBase(SQLModel):
 class Entry(EntryBase, table=True):
     __tablename__ = "entry"
     id: Optional[int] = Field(default=None, primary_key=True)
+
+    tags: List["Tag"] = Relationship(back_populates="entries", link_model=EntryTagLink)
 
 
 class EntryUpdate(SQLModel):

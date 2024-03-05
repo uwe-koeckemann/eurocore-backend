@@ -1,3 +1,4 @@
+import logging
 from typing import Union, List, Optional
 
 from fastapi import FastAPI, HTTPException
@@ -11,6 +12,8 @@ from data.team import Team, TeamBase, TeamUpdate
 from data.module import ModuleUsage, ModuleUsageBase, ModuleUsageUpdate
 
 from data.aiod_entry import AiOnDemandOrganization, AiOnDemandPerson
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 engine = create_engine("sqlite:///database.db", echo=True)
@@ -100,7 +103,7 @@ def get_all_module_usages():
             return {}
 
 
-@app.post("/module_usage/create/module_usage", tags=["Module Usages"])
+@app.post("/module_usage/create", tags=["Module Usages"])
 def create_module_usage(module_usage: ModuleUsage):
     with Session(engine) as session:
         session.add(module_usage)
@@ -157,6 +160,15 @@ def get_all_tags():
             return {}
 
 
+@app.post("/tag/create", tags=["Tag"])
+def create_tag(tag: TagBase):
+    with Session(engine) as session:
+        new_tag = Tag(name=tag.name)
+        session.add(new_tag)
+        session.commit()
+    return {"POST": new_tag}
+
+
 @app.put("/tag/update/{tag_id}", tags=["Tag"])
 def update_tag(tag_id: int, tag: Tag):
     with Session(engine) as session:
@@ -181,18 +193,19 @@ def delete_tag(tag_id: int):
         session.commit()
     return {"Deleting tag": tag_id}
 
+
 # TODO: Replace tag by another everywhere and delete original
 
 
 ################################################################################
 # RelationType
 ################################################################################
-@app.get("/relation_type/{relation_type_id}", tags=["Relation Type"])
+@app.get("/relation_type/get_by_id/{relation_type_id}", tags=["Relation Type"])
 def get_relation_type(relation_type_id: int):
     with Session(engine) as session:
         results = session.execute(select(RelationType).where(RelationType.id == relation_type_id))
         try:
-            return results.one()["ModuleUsage"]
+            return results.one()["RelationType"]
         except:
             return {}
 
@@ -201,16 +214,31 @@ def get_relation_type(relation_type_id: int):
 def get_all_relation_types():
     with Session(engine) as session:
         results = session.exec(select(RelationType))
+        print(results)
         try:
             return results.all()
         except:
             return {}
 
 
-@app.put("/relation_type/update/{relation_type_id}", tags=["Relation Type"])
-def update_relation_type(relation_type_id: int, relation_type: RelationType):
+@app.post("/relation_type/create", tags=["Relation Type"])
+def create_relation_type(relation_type: RelationTypeBase):
     with Session(engine) as session:
-        db_relation_type = session.get(RelationType, relation_type_id)
+        new_relation_type = RelationType(
+            name=relation_type.name,
+            inverse_name=relation_type.inverse_name,
+            topic=relation_type.topic,
+            inverse_topic=relation_type.inverse_topic,
+            description=relation_type.description)
+        session.add(new_relation_type)
+        session.commit()
+    return {"POST": new_relation_type}
+
+
+@app.put("/relation_type/update/{relation_type_ida}", tags=["Relation Type"])
+def update_relation_type(relation_type_ida: int, relation_type: RelationType):
+    with Session(engine) as session:
+        db_relation_type = session.get(RelationType, relation_type_ida)
         if not db_relation_type:
             raise HTTPException(status_code=404, detail="relation_type not found")
         relation_type_data = relation_type.dict(exclude_unset=True)
@@ -222,14 +250,15 @@ def update_relation_type(relation_type_id: int, relation_type: RelationType):
         return db_relation_type
 
 
-@app.delete("/relation_type/delete/{relation_type_id}", tags=["Relation Type"])
-def delete_module_usage(relation_type_id: int):
+@app.delete("/relation_type/delete/{relation_type_idb}", tags=["Relation Type"])
+def delete_module_usage(relation_type_idb: int):
     with Session(engine) as session:
-        relation_type = session.exec(select(RelationType).where(RelationType.id == relation_type_id)).one()
+        relation_type = session.exec(select(RelationType).where(RelationType.id == relation_type_idb)).one()
         # TODO: Only allow for unused relation_types
         session.delete(relation_type)
         session.commit()
-    return {"Deleting relation_type": relation_type_id}
+    return {"Deleting relation_type": relation_type_idb}
+
 
 # TODO: Replace relation_type by another everywhere and delete original
 
@@ -256,6 +285,29 @@ def get_all_entries():
             return {}
 
 
+@app.post("/entry/create", tags=["Entry"])
+def create_entry(entry: Entry):
+    with Session(engine) as session:
+        tags = []
+        for in_tag in entry.tags:
+
+            tag = session.exec(select(Tag).where(Tag.name == in_tag.name)).first()
+            logger.info(f"{in_tag}")
+            logger.info(f"{tag}")
+            logger.info(f"{type(tag)}")
+            tags.append(tag)
+
+        new_entry = Entry(
+            name=entry.name,
+            url=entry.url,
+            description=entry.description,
+            tags=[]
+        )
+        session.add(new_entry)
+        session.commit()
+    return {"POST": new_entry}
+
+
 @app.put("/entry/update/{entry_id}", tags=["Entry"])
 def update_entry(entry_id: int, entry: Entry):
     with Session(engine) as session:
@@ -279,6 +331,7 @@ def delete_entry(entry_id: int):
         session.delete(entry)
         session.commit()
     return {"Deleting entry": entry_id}
+
 
 ################################################################################
 # Relation

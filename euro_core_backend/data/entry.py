@@ -5,7 +5,7 @@ from .entry_tag_link import EntryTagLink
 
 
 class EntryBase(SQLModel):
-    name: str = Field(max_length=100)
+    name: str = Field(max_length=100, unique=True)
     url: str = Field(max_length=200)
     description: Optional[str] = Field(max_length=500)
 

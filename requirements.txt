@@ -1,5 +1,8 @@
-fastapi==0.101.1
+fastapi==0.110.0
 uvicorn==0.23.2
-sqlmodel==0.0.8
+sqlmodel==0.0.16
 
 requests~=2.31.0
+
+httpx
+pytest

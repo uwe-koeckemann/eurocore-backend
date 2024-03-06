@@ -49,20 +49,30 @@ def populate_relations_from_file(name: str):
 # populate_relations_from_file('./sample-data/relations.csv')
 
 answer = session.post(f"{url}/entry/create", json={
-    'name': 'AIDDL',
+    'name': 'AIDDL Framework 2.0',
     'url': 'aiddl.org',
     'description': 'Awesome Framework',
-    'tags': [{'name': 'AIDDL'}, {'name': 'Framework'}]
 })
 print(answer.status_code)
 print(answer.text)
 
-# answer = session.get(f"{url}/relation_type/get-all")
-# for e in answer.json():
-#     print(e)
+print("----")
+entry = session.get(f'{url}/entry/get-by-name/AIDDL%20Framework%202.0')
+entry_id = entry.json()['id']
+print(entry.status_code)
+print(entry.json())
+
+print("----")
+tag_ros = session.get(f'{url}/tag/get-by-name/ROS').json()
+tag_map = session.get(f'{url}/tag/get-by-name/Map').json()
+
+print(tag_ros)
+print(tag_map)
+
+print("----")
+
+session.post(f'{url}/entry/add-tag/{entry_id}/{tag_map["id"]}')
+session.post(f'{url}/entry/add-tag/{entry_id}/{tag_ros["id"]}')
 
 
-#answer = session.get(f"{url}/relation_type/1")
-#print(answer.status_code)
-#print(answer.text)
 

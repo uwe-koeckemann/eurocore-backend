@@ -1,6 +1,6 @@
 *~
 .idea/
-src/database.db
+euro_core_backend/database.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

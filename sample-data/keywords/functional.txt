@@ -4,3 +4,6 @@ Git
 ROS Launchable
 File
 Configurable
+Team
+Offer
+Coopetition

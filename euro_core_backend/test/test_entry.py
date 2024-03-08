@@ -56,7 +56,6 @@ def test_get_entry_by_id_fails(session: Session):
     client = TestClient(app)
     response = client.get("/entry/get/-1")
     app.dependency_overrides.clear()
-    print(response.json())
     assert response.status_code == 404
 
 
@@ -77,12 +76,8 @@ def test_get_entry_by_name(session: Session):
 
 def test_get_entry_by_name_fails(session: Session):
     app.dependency_overrides[get_session] = lambda: session
-
     client = TestClient(app)
-
-    response = client.get(
-        f"/entry/get-by-name/Entry_Not_In_DB"
-    )
+    response = client.get(f"/entry/get-by-name/Entry_Not_In_DB")
     app.dependency_overrides.clear()
     assert response.status_code == 404
 
@@ -90,10 +85,7 @@ def test_get_entry_by_name_fails(session: Session):
 def test_get_entry_get_all_empty(session: Session):
     app.dependency_overrides[get_session] = lambda: session
     client = TestClient(app)
-
-    response = client.get(
-        f"/entry/get-all"
-    )
+    response = client.get(f"/entry/get-all")
     app.dependency_overrides.clear()
     assert response.status_code == 200
     assert response.json() == []
@@ -180,5 +172,4 @@ def test_entry_get_tags_failure(session: Session):
     client = TestClient(app)
     get_tags_response = client.get(f"/entry/get-tags/1")
     app.dependency_overrides.clear()
-
     assert get_tags_response.status_code == 404

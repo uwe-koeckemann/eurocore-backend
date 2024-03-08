@@ -3,8 +3,8 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-from data.tag import Tag
-from data.entry import Entry
+from euro_core_backend.data.tag import Tag
+from euro_core_backend.data.entry import Entry
 
 
 def __main__() -> None:

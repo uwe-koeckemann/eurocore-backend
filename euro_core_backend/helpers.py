@@ -48,3 +48,7 @@ def delete(session, row_id, db_type):
     return db_row
 
 
+def assert_exists(session, row_id, db_type):
+    db_row = session.get(db_type, row_id)
+    if not db_row:
+        raise HTTPException(status_code=404, detail=f"Could not find {db_type.__name__} with id: {row_id}")

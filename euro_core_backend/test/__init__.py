@@ -1,7 +1,8 @@
 
 test_entry_a = {"name": "Entry_A", "url": "URL", "description": "DESC", "tags": []}
 test_entry_b = {"name": "Entry_B", "url": "URL", "description": "DESC", "tags": []}
-
+test_team_a = {"name": "Team 1", "url": "URL", "description": "DESC", "tags": []}
+test_team_b = {"name": "Team 2", "url": "URL", "description": "DESC", "tags": []}
 
 test_relation_a = {
     'name': "relation_a",
@@ -18,3 +19,5 @@ test_relation_b = {
     'inverse_topic': 'Inverse of Relation B',
     'description': "A relation called B"
 }
+
+

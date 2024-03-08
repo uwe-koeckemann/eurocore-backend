@@ -1,7 +1,7 @@
 from typing import Optional, List
 from sqlmodel import Field, SQLModel, Relationship
 
-from .entry_tag_link import EntryTagLink
+from euro_core_backend.data.entry_tag_link import EntryTagLink
 
 
 class EntryBase(SQLModel):

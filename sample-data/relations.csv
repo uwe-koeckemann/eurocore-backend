@@ -3,4 +3,5 @@ has_tutorial,tutorial_for,Tutorials,Covered Topics,Tutorial about an entry
 has_datasheet,datasheet_for,Data Sheets,Covered Devices,Datasheets associated to an entry
 has_author,author_of,Authors,Authored Works,Author of an entry
 implements,implemented_by,Based on,Implementations,Implements work described in another entry
-uses,used_by,Usages,Uses,This entry uses another entry
+uses,used_by,Usages,Uses,"This entry (e.g., team) uses an entry"
+offers,offered_by,Offers,Offered By,"Entry is offered by another entry (e.g., team)."

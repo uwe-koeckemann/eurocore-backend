@@ -37,9 +37,7 @@ def test_get_tag_by_id(session: Session):
     response_post = client.post("/tag/create", json={"name": "Tag_B"})
     tag_id = response_post.json()["id"]
 
-    response = client.get(
-        f"/tag/get/{tag_id}"
-    )
+    response = client.get(f"/tag/get/{tag_id}")
     app.dependency_overrides.clear()
     data = response.json()
     assert response.status_code == 200
